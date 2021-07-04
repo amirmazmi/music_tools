@@ -1,0 +1,136 @@
+<html>
+<!--
+
+    Created by Amir Azmi
+    Created on 4 July 2021
+
+    Source: https://www.geeksforgeeks.org/all-unique-combinations-whose-sum-equals-to-k/
+    https://www.educative.io/m/find-all-sum-combinations
+
+-->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script language="JavaScript">
+            //--------------------------------------------------------------------------
+            //gets the type of browser
+            function detectBrowser() { 
+                if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ) {
+                    return 'Opera';
+                } else if(navigator.userAgent.indexOf("Chrome") != -1 ) {
+                    return 'Chrome';
+                } else if(navigator.userAgent.indexOf("Safari") != -1) {
+                    return 'Safari';
+                } else if(navigator.userAgent.indexOf("Firefox") != -1 ){
+                    return 'Firefox';
+                } else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) {
+                    return 'IE';//crap
+                } else {
+                    return 'Unknown';
+                }
+            }
+
+            function checkBrowser() {
+                document.getElementById("bepatient").innerHTML =  "Calculations may take time. Please check your task manager for <b>" + detectBrowser() + "</b> to see if it is still running.<br>For target sum over 30, numbers [ 1, 2, 3] excluded to make calculations faster.";
+            }
+
+            //--------------------------------------------------------------------------
+            /// Run all combinations
+            let print_all_sum_rec = function(target, current_sum, start, result, output) {
+                if (current_sum === target) {
+                    output.push(result.slice());
+                }
+
+                for (let i = start ; i < 10; i++) {
+                //for (let i = start ; i < target; i++) {
+                    let temp_sum = current_sum + i;
+                    // ADD LIMITER TO SPEED UP CALC     !!!
+                    if (temp_sum <= target && result[2] !=  1 && result[4] != 2 && result[6] != 3 ) {
+                    //if (temp_sum <= target) {
+                        result.push(i);
+                        print_all_sum_rec(target, temp_sum, i, result, output);
+                        result.pop();
+                    } else {
+                        return;
+                    }
+                }
+            };
+
+            let print_all_sum = function(target) {
+                //console.log(target);
+                let output = [];
+                let result = [];
+                print_all_sum_rec(target, 0, 1, result, output);
+                return output;
+            };
+
+            //--------------------------------------------------------------------------
+            function runCalc(){
+                let intarget = document.getElementById("totals").value;
+                //document.getElementById("totals").value = intarget;
+                //console.log(intarget);
+
+                let result = print_all_sum( Number(intarget)).reverse();
+                // parse output array
+                for( let i=0; i<result.length; i++) {
+                    document.getElementById("results").innerHTML = document.getElementById("results").innerHTML + result[i].join(",") + "&#13;&#10;" ;
+                    if ( (i + 1) % 3 == 0 && i != 0) {
+                        document.getElementById("results").innerHTML = document.getElementById("results").innerHTML + "&#13;&#10;";
+                    }
+                }
+            }
+
+        </script>
+    </head>
+
+    <body onload="checkBrowser();">
+        <div class="formitem">
+            <form id="gagaga" method="post" action="" onsubmit="runCalc(); return false;" onreset="document.getElementById('results').innerHTML='';" >
+                <label for="totals">Target sum:</label>
+                <input type="text" id="totals" name="totals" placeholder="Enter target total">
+                <br>
+                <input type="submit" value="Submit" name="Submit">
+                <input type="reset">
+            </form>
+            <p id="bepatient"></p>
+        </div>
+        <hr>
+        <br>
+        <div id="rulesformitem" class="formitem">
+            <label for="rules" id="ruleslabel">Results:</label>
+            <div class="textwrapper">
+                <textarea id="results" cols="3" rows="30" id="rules"></textarea>
+            </div>
+        </div>
+
+    </body>
+    <footer>
+        <div style="margin: auto;">
+            <p style="text-align: center;">
+                Amir Azmi (July 2021) <br> <a href="https://github.com/amirmazmi">https://github.com/amirmazmi</a>
+            </p>
+        </div>
+    </footer>
+    <style>
+        .formitem{
+            margin: auto ;
+            text-align: center;
+        }
+
+        .textwrapper {
+            margin: auto ;
+            max-width: 600px;
+            width: 70% ;
+            padding: 10px ;
+        }
+
+        #results {
+            margin: auto ;
+            width: 100% ;
+            border: 1px solid #73AD21 ;
+            padding: 10px ;
+
+        }
+
+    </style>
+
+</html>
