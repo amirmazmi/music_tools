@@ -1,7 +1,9 @@
 ## subdivision tools
 
-combinational sum.html - calculates divisions of input value using number from 1-9
+combinational sum.html - calculates divisions of input value using number from 1-9  
+combination_sum.py - python version (faster than browser)
 
-precomputed values:
-- aaa
-- bbb
+text files containing precomputed values 
+
+
+<br><br><br>
